@@ -10,8 +10,8 @@ public abstract class BaseScreen {
         System.out.flush();
     }
 
-    protected void pauseScreen(Scanner scan) {
-        System.out.println("Press enter to continue ...");
+    protected void pause(Scanner scan) {
+        System.out.println("\nPress enter to continue ...");
         scan.nextLine();
     }
 }

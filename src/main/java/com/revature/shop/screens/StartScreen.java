@@ -10,13 +10,33 @@ public class StartScreen extends BaseScreen {
     }
 
     public void startInterface() {
-        clearScreen();
-        System.out.println("You have reached the Start Screen!");
+        while (true) {
+            clearScreen();
+            System.out.println("You have reached the Start Screen!");
 
-        System.out.print("Enter an option: ");
-        String userChoice = scan.nextLine();
+            System.out.println("\n[1] Login");
+            System.out.println("[2] Register");
+            System.out.println("[x] Quit");
 
-        System.out.println("You entered " + userChoice);
-        pauseScreen(scan);
+            System.out.print("\nEnter an option: ");
+            String userChoice = scan.nextLine();
+
+            switch (userChoice) {
+                case "1":
+                    System.out.println("You chose to [Login]");
+                    break;
+                case "2":
+                    System.out.println("You chose to [Register]");
+                    break;
+                case "x":
+                case "X":
+                    System.out.println("You chose to [Quit]");
+                    return;
+                default:
+                    System.out.println("Choice not recgonized, please select a valid option");
+                    pause(scan);
+                    continue;
+            }
+        }
     }
 }

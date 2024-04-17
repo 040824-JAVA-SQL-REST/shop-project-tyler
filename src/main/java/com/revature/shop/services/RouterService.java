@@ -23,7 +23,7 @@ public class RouterService {
             case "/login":
                 return new LoginScreen();
             default:
-                System.out.println("path not found!");
+                // System.out.println("path not found!");
                 return new StartScreen(scan);
         }
     }
