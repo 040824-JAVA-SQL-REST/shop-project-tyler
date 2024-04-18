@@ -2,11 +2,15 @@ package com.revature.shop.screens;
 
 import java.util.Scanner;
 
+import com.revature.shop.services.RouterService;
+
 public class StartScreen extends BaseScreen {
     private final Scanner scan;
+    private final RouterService routerService;
 
-    public StartScreen(Scanner scan) {
+    public StartScreen(Scanner scan, RouterService routerService) {
         this.scan = scan;
+        this.routerService = routerService;
     }
 
     public void startInterface() {
@@ -27,6 +31,7 @@ public class StartScreen extends BaseScreen {
                     break;
                 case "2":
                     System.out.println("You chose to [Register]");
+                    routerService.navigate("/register").startInterface();
                     break;
                 case "x":
                 case "X":

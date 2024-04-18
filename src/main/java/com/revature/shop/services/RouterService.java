@@ -2,6 +2,8 @@ package com.revature.shop.services;
 
 import java.util.Scanner;
 
+import com.revature.shop.daos.RoleDao;
+import com.revature.shop.daos.UserDao;
 import com.revature.shop.screens.BaseScreen;
 import com.revature.shop.screens.LoginScreen;
 import com.revature.shop.screens.RegisterScreen;
@@ -17,14 +19,14 @@ public class RouterService {
     public BaseScreen navigate(String path) {
         switch (path) {
             case "/start":
-                return new StartScreen(scan);
+                return new StartScreen(scan, this);
             case "/register":
-                return new RegisterScreen();
+                return new RegisterScreen(scan, this, new UserService(new UserDao(), new RoleService(new RoleDao())));
             case "/login":
                 return new LoginScreen();
             default:
                 // System.out.println("path not found!");
-                return new StartScreen(scan);
+                return new StartScreen(scan, this);
         }
     }
 }
