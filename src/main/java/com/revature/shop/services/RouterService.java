@@ -21,7 +21,7 @@ public class RouterService {
             case "/start":
                 return new StartScreen(scan, this);
             case "/register":
-                return new RegisterScreen(scan, this, new UserService(new UserDao(), new RoleService(new RoleDao())));
+                return new RegisterScreen(scan, new UserService(new UserDao(), new RoleService(new RoleDao())));
             case "/login":
                 return new LoginScreen();
             default:

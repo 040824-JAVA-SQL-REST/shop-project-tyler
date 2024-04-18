@@ -4,19 +4,28 @@ import java.util.UUID;
 
 public class User {
     private String id;
-    private String username;
+    private String email;
     private String password;
+    private String fullName;
     private String roleId;
 
     public User() {
 
     }
 
-    public User(String username, String password) {
+    public User(String email, String password, String fullName) {
         id = UUID.randomUUID().toString();
-        this.username = username;
+        this.email = email;
         this.password = password;
-        roleId = "DEFAULT_ID";
+        this.fullName = fullName;
+    }
+
+    public User(String id, String email, String password, String fullName, String roleId) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.roleId = roleId;
     }
 
     public String getId() {
@@ -27,12 +36,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -49,6 +58,14 @@ public class User {
 
     public void setRoleId(String roleId) {
         this.roleId = roleId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
 }

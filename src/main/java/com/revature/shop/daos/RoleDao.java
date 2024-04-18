@@ -45,9 +45,9 @@ public class RoleDao implements CrudDao<Role> {
                 roles.add(role);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Cannot connect to the database");
+            throw new RuntimeException("SQL EXCEPTION!\n" + e);
         } catch (IOException e) {
-            throw new RuntimeException("Cannot find application.properties file");
+            throw new RuntimeException("IO EXCEPTION!\n" + e);
         }
 
         return roles;

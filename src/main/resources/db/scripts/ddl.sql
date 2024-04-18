@@ -34,8 +34,9 @@ create table checkout (
 
 create table users (
 	id varchar,
-	username varchar not null unique,
+	email varchar not null unique,
 	password varchar not null,
+	full_name varchar not null,
 	role_id varchar,
 	--- TODO make many-to-one ---
 	--- checkout_history varchar, ---

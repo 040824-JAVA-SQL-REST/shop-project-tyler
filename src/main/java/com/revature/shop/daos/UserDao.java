@@ -17,11 +17,13 @@ public class UserDao implements CrudDao<User> {
     public User save(User obj) {
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
                 PreparedStatement ps = conn
-                        .prepareStatement("INSERT INTO users (id, username, password, role_id) VALUES (?, ?, ?, ?)")) {
+                        .prepareStatement(
+                                "INSERT INTO users (id, email, password, full_name, role_id) VALUES (?, ?, ?, ?, ?)")) {
             ps.setString(1, obj.getId());
-            ps.setString(2, obj.getUsername());
+            ps.setString(2, obj.getEmail());
             ps.setString(3, obj.getPassword());
-            ps.setString(4, obj.getRoleId());
+            ps.setString(4, obj.getFullName());
+            ps.setString(5, obj.getRoleId());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -55,15 +57,16 @@ public class UserDao implements CrudDao<User> {
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getString("id"));
-                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
+                user.setFullName(rs.getString("full_name"));
                 user.setRoleId(rs.getString("role_id"));
                 users.add(user);
             }
         } catch (SQLException e) {
             throw new RuntimeException("SQL EXCEPTION!\n" + e);
         } catch (IOException e) {
-            throw new RuntimeException("Cannot find application.properties file");
+            throw new RuntimeException("IO EXCEPTION!\n" + e);
         }
 
         return users;
