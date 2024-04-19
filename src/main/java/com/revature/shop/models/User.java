@@ -10,7 +10,6 @@ public class User {
     private String roleId;
 
     public User() {
-
     }
 
     public User(String email, String password, String fullName) {

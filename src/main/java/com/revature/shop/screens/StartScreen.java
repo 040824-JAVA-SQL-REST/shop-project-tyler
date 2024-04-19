@@ -28,6 +28,7 @@ public class StartScreen extends BaseScreen {
             switch (userChoice) {
                 case "1":
                     System.out.println("You chose to [Login]");
+                    routerService.navigate("/login").startInterface();
                     break;
                 case "2":
                     System.out.println("You chose to [Register]");

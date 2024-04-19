@@ -1,6 +1,9 @@
 package com.revature.shop.services;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import com.revature.shop.daos.UserDao;
 import com.revature.shop.models.User;
@@ -45,6 +48,13 @@ public class UserService {
         if (lastName == null || lastName.trim().equals(""))
             return false;
         return true;
+    }
+
+    public Optional<User> login(String email, String password) {
+        return userDao.findAll()
+                .stream()
+                .filter(u -> u.getEmail().equals(email) && BCrypt.checkpw(password, u.getPassword()))
+                .findFirst();
     }
 
     public void saveUser(User user) {
