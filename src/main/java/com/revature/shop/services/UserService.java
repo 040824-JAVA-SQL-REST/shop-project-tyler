@@ -57,6 +57,15 @@ public class UserService {
                 .findFirst();
     }
 
+    public boolean authenticateUser(User user, String roleName) {
+        String roleId = roleService.getRoleIdByName(roleName);
+        Optional<User> authUser = userDao.findAll()
+                .stream()
+                .filter(u -> u.getId().equals(user.getId()) && u.getRoleId().equals(roleId))
+                .findFirst();
+        return authUser.isPresent();
+    }
+
     public void saveUser(User user) {
         String defaultId = roleService.getRoleIdByName("DEFAULT");
         if (defaultId == null || defaultId.isEmpty()) {
