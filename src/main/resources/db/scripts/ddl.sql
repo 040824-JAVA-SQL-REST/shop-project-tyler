@@ -1,7 +1,7 @@
 --- Note: Drop children before parents ---
 drop table if exists users;
 drop table if exists products;
-drop table if exists checkout;
+drop table if exists order;
 drop table if exists roles;
 
 
@@ -21,14 +21,14 @@ create table products (
 	
 );
 
-create table checkout (
+create table order (
 	id varchar,
 	--- TODO make many to many ---
 	--- productList varchar, ---
 	success bit not null,
 	payment_method varchar not null,
 	total_cost money not null,
-	constraint pk_checkout_id primary key (id)
+	constraint pk_order_id primary key (id)
 	
 );
 
@@ -39,7 +39,7 @@ create table users (
 	full_name varchar not null,
 	role_id varchar,
 	--- TODO make many-to-one ---
-	--- checkout_history varchar, ---
+	--- order_history varchar, ---
 	constraint pk_user_id primary key (id),
 	constraint fk_role_id foreign key (role_id) references roles (id)
 );
