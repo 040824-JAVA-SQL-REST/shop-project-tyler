@@ -2,6 +2,8 @@ package com.revature.shop.models;
 
 import java.util.UUID;
 
+import com.revature.shop.dtos.requests.NewRegisterRequest;
+
 public class User {
     private String id;
     private String email;
@@ -10,6 +12,13 @@ public class User {
     private String roleId;
 
     public User() {
+    }
+
+    public User(NewRegisterRequest req) {
+        this.id = UUID.randomUUID().toString();
+        this.email = req.getEmail();
+        this.password = req.getPassword();
+        this.fullName = req.getFirstName() + " " + req.getLastName();
     }
 
     public User(String email, String password, String fullName) {

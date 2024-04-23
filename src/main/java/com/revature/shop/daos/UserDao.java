@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.shop.models.Role;
 import com.revature.shop.models.User;
 import com.revature.shop.utils.ConnectionFactory;
 
@@ -76,6 +77,31 @@ public class UserDao implements CrudDao<User> {
     public User findById(String id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    }
+
+    public Role getUserRoleByUser(User user) {
+        Role role = new Role();
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+                PreparedStatement ps = conn.prepareStatement("SELECT " +
+                        "u.id, " +
+                        "r.id as role_id, " +
+                        "r.name as role_name " +
+                        "FROM users u " +
+                        "JOIN roles r on r.id = u.role_id " +
+                        "WHERE r.id = ?");) {
+            ps.setString(1, user.getRoleId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                role.setId(rs.getString("role_id"));
+                role.setName(rs.getString("role_name"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("SQL EXCEPTION!\n" + e);
+        } catch (IOException e) {
+            throw new RuntimeException("IO EXCEPTION!\n" + e);
+        }
+        return role;
     }
 
 }

@@ -101,7 +101,7 @@ public class RegisterScreen extends BaseScreen {
         }
 
         System.out.println("Adding user...");
-        userService.saveUser(new User(email, password, username));
+        userService.save(new User(email, password, username));
         pause(scan);
     }
 

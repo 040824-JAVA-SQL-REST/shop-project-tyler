@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.revature.shop.daos.UserDao;
+import com.revature.shop.models.Role;
 import com.revature.shop.models.User;
 import com.revature.shop.utils.custom_exceptions.ResourceNotFoundException;
 
@@ -66,13 +67,14 @@ public class UserService {
         return authUser.isPresent();
     }
 
-    public void saveUser(User user) {
+    public void save(User user) {
         String defaultId = roleService.getRoleIdByName("DEFAULT");
         if (defaultId == null || defaultId.isEmpty()) {
             throw new ResourceNotFoundException("DEFAULT role not found");
         }
 
         user.setRoleId(defaultId);
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
         userDao.save(user);
     }
 
@@ -81,5 +83,9 @@ public class UserService {
                 .filter(u -> u.getEmail().equals(email))
                 .findFirst()
                 .get();
+    }
+
+    public Role getUserRole(User user) {
+        return userDao.getUserRoleByUser(user);
     }
 }
