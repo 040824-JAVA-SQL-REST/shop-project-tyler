@@ -2,6 +2,9 @@ package com.revature.shop.models;
 
 import java.util.UUID;
 
+import com.revature.shop.dtos.requests.EditProductRequest;
+import com.revature.shop.dtos.requests.NewProductRequest;
+
 public class Product {
     private String id;
     private String name;
@@ -23,6 +26,20 @@ public class Product {
         this.name = name;
         this.description = description;
         this.price = price;
+    }
+
+    public Product(NewProductRequest req) {
+        this.id = UUID.randomUUID().toString();
+        this.name = req.getName();
+        this.description = req.getDescription();
+        this.price = req.getPrice();
+    }
+
+    public Product(EditProductRequest req) {
+        this.id = req.getId();
+        this.name = req.getName();
+        this.description = req.getDescription();
+        this.price = req.getPrice();
     }
 
     public String getId() {

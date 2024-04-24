@@ -9,15 +9,18 @@ import com.revature.shop.dtos.requests.NewRegisterRequest;
 import com.revature.shop.dtos.responses.Principal;
 import com.revature.shop.models.Role;
 import com.revature.shop.models.User;
+import com.revature.shop.services.TokenService;
 import com.revature.shop.services.UserService;
 
 import io.javalin.http.Context;
 
 public class UserController {
     private UserService userService;
+    private TokenService tokenService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TokenService tokenService) {
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     public void register(Context ctx) {
@@ -88,9 +91,13 @@ public class UserController {
             Role userRole = userService.getUserRole(foundUser);
 
             Principal principal = new Principal(foundUser, userRole);
+            // generate token
+            String token = tokenService.generateToken(principal);
+
+            // set token to header
+            ctx.header("auth-token", token);
             ctx.json(principal);
             ctx.status(200);
-            // generate token
 
         } catch (Exception e) {
             ctx.status(500);

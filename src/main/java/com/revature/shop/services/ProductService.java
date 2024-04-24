@@ -1,5 +1,7 @@
 package com.revature.shop.services;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.revature.shop.daos.ProductDao;
@@ -12,15 +14,48 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public void save(Product product) {
+    public Product save(Product product) {
         product.setId(UUID.randomUUID().toString());
-        productDao.save(product);
+        return productDao.save(product);
     }
 
-    public Product getProductByName(String name) {
+    public Product update(Product product) {
+        return productDao.update(product);
+    }
+
+    public boolean delete(String id) {
+        return productDao.delete(id);
+    }
+
+    public List<Product> getAllProducts() {
+        return productDao.findAll();
+    }
+
+    public Optional<Product> getProductById(String id) {
         return productDao.findAll().stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst();
+    }
+
+    public boolean isUniqueName(String name) {
+        Optional<Product> optProduct = productDao.findAll()
+                .stream()
                 .filter(p -> p.getName().equals(name))
-                .findFirst()
-                .get();
+                .findFirst();
+        if (optProduct.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValidName(String name) {
+        if (name.isEmpty() || name == null || name.length() < 4) {
+            return false;
+        } else
+            return true;
+    }
+
+    public boolean isValidPrice(float price) {
+        return price > 0.00f;
     }
 }

@@ -36,14 +36,45 @@ public class ProductDao implements CrudDao<Product> {
 
     @Override
     public Product update(Product obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+                PreparedStatement ps = conn
+                        .prepareStatement(
+                                "UPDATE products SET Name = ?, Description = ?, Price = ? WHERE id = ?")) {
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getDescription());
+            ps.setFloat(3, obj.getPrice());
+            ps.setString(4, obj.getId());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot connect to the database " + e);
+        } catch (IOException e) {
+            throw new RuntimeException("IO EXCEPTION!\n" + e);
+        }
+
+        return obj;
     }
 
     @Override
     public boolean delete(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+                PreparedStatement ps = conn
+                        .prepareStatement(
+                                "DELETE FROM products WHERE id = ?")) {
+            ps.setString(1, id);
+
+            int numRows = ps.executeUpdate();
+            if (numRows == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot connect to the database " + e);
+        } catch (IOException e) {
+            throw new RuntimeException("IO EXCEPTION!\n" + e);
+        }
+
     }
 
     @Override
