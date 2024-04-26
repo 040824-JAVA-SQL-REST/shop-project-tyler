@@ -1,5 +1,6 @@
 package com.revature.shop.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.revature.shop.daos.OrderDao;
@@ -20,6 +21,16 @@ public class OrderService {
         return orderDao.findAll().stream()
                 .filter(o -> o.getId().equals(id))
                 .findFirst();
+    }
+
+    public List<Order> getAllOrdersByUserId(String id) {
+        return orderDao.findAll().stream()
+                .filter(o -> o.getUserId().equals(id))
+                .toList();
+    }
+
+    public List<Order> getAllOrders() {
+        return orderDao.findAll();
     }
 
     public boolean isExistingOrderId(String orderId) {

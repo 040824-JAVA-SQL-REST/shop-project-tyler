@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.revature.shop.dtos.responses.GetCartRequest;
+import com.revature.shop.dtos.requests.GetCartRequest;
 import com.revature.shop.dtos.responses.Principal;
 import com.revature.shop.models.Cart;
 import com.revature.shop.services.CartService;

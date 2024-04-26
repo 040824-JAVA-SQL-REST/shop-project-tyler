@@ -26,4 +26,10 @@ public class OrderProductService {
             orderProductDao.save(op);
         }
     }
+
+    public List<OrderProduct> findAllOrderProductsByOrderId(String id) {
+        return orderProductDao.findAll().stream()
+                .filter(op -> op.getOrderId().equals(id))
+                .toList();
+    }
 }

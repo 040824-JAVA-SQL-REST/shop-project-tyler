@@ -2,7 +2,7 @@ package com.revature.shop.dtos.requests;
 
 public class AddCheckoutRequest {
     String orderId;
-    String payment_method,
+    String payment_method;
 
     public AddCheckoutRequest() {
     }

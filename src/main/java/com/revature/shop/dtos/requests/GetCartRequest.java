@@ -1,4 +1,4 @@
-package com.revature.shop.dtos.responses;
+package com.revature.shop.dtos.requests;
 
 import com.revature.shop.models.Cart;
 

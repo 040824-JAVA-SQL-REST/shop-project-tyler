@@ -59,6 +59,7 @@ public class OrderDao implements CrudDao<Order> {
                 cart.setPending(rs.getString("pending"));
                 cart.setPaymentMethod(rs.getString("payment_method"));
                 cart.setUserId(rs.getString("user_id"));
+                cart.setCreated_time(rs.getString("created_time"));
                 orders.add(cart);
             }
             return orders;

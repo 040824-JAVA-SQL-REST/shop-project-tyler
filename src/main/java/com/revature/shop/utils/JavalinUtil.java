@@ -52,6 +52,7 @@ public class JavalinUtil {
                 new TokenService());
         OrderController orderController = new OrderController(
                 new OrderService(new OrderDao()),
+                new OrderProductService(new OrderProductDao()),
                 new TokenService());
         OrderProductController orderProductController = new OrderProductController(
                 new OrderProductService(new OrderProductDao()),
@@ -93,6 +94,8 @@ public class JavalinUtil {
 
                 path("/orders", () -> {
                     get("/new", orderController::getNewOrder);
+                    get("/user", orderController::getUserOrders);
+                    get("/all", orderController::getAllOrders);
                 });
 
                 path("/orderProducts", () -> {
