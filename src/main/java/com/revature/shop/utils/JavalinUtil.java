@@ -8,17 +8,23 @@ import java.io.IOException;
 import com.revature.shop.controllers.CartController;
 import com.revature.shop.controllers.CartProductController;
 import com.revature.shop.controllers.CategoryController;
+import com.revature.shop.controllers.OrderController;
+import com.revature.shop.controllers.OrderProductController;
 import com.revature.shop.controllers.ProductController;
 import com.revature.shop.controllers.UserController;
 import com.revature.shop.daos.CartDao;
 import com.revature.shop.daos.CartProductDao;
 import com.revature.shop.daos.CategoryDao;
+import com.revature.shop.daos.OrderDao;
+import com.revature.shop.daos.OrderProductDao;
 import com.revature.shop.daos.ProductDao;
 import com.revature.shop.daos.RoleDao;
 import com.revature.shop.daos.UserDao;
 import com.revature.shop.services.CartProductService;
 import com.revature.shop.services.CartService;
 import com.revature.shop.services.CategoryService;
+import com.revature.shop.services.OrderProductService;
+import com.revature.shop.services.OrderService;
 import com.revature.shop.services.ProductService;
 import com.revature.shop.services.RoleService;
 import com.revature.shop.services.TokenService;
@@ -43,6 +49,15 @@ public class JavalinUtil {
                 new CartProductService(new CartProductDao()),
                 new ProductService(new ProductDao()),
                 new CartService(new CartDao()),
+                new TokenService());
+        OrderController orderController = new OrderController(
+                new OrderService(new OrderDao()),
+                new TokenService());
+        OrderProductController orderProductController = new OrderProductController(
+                new OrderProductService(new OrderProductDao()),
+                new CartProductService(new CartProductDao()),
+                new CartService(new CartDao()),
+                new OrderService(new OrderDao()),
                 new TokenService());
 
         return Javalin.create(config -> {
@@ -74,6 +89,14 @@ public class JavalinUtil {
                     delete(cartProductController::delete);
                     get("/user", cartProductController::getUsersCartProduct);
                     get("/price", cartProductController::getUsersCartPrice);
+                });
+
+                path("/orders", () -> {
+                    get("/new", orderController::getNewOrder);
+                });
+
+                path("/orderProducts", () -> {
+                    post(orderProductController::checkout);
                 });
             });
         });

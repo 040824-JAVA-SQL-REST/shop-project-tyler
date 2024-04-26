@@ -39,6 +39,25 @@ public class CartProductService {
         return cartProductDao.deleteByCartIdAndProductId(cartId, productId);
     }
 
+    public boolean deleteAllItemsAssociatedWithCartId(String cartId) {
+        // grab all of the cartProducts with the cart id
+        List<CartProduct> cartProducts = findCartProductWithCertainCartId(cartId);
+        // 0 items means nothing to delete, so we're already done
+        if (cartProducts.size() == 0) {
+            return true;
+        }
+        for (int i = 0; i < cartProducts.size(); i++) {
+            boolean didDelete = deleteByCartIdAndProductId(cartId,
+                    cartProducts.get(i).getProductId());
+            // failure to delete here means something happened, shouldn't normally reach
+            // this state
+            if (!didDelete) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public float getTotalCostByCartId(String cartId) {
         return cartProductDao.getCartPrice(cartId);
     }

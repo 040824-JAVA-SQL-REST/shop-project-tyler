@@ -5,6 +5,9 @@ public class OrderProduct {
     private String productId;
     private int quantity;
 
+    public OrderProduct() {
+    }
+
     public OrderProduct(String orderId, String productId, int quantity) {
         this.orderId = orderId;
         this.productId = productId;

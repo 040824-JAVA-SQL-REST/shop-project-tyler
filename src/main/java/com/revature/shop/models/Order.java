@@ -5,14 +5,24 @@ import java.util.UUID;
 public class Order {
     private String id;
     private String pending;
-    private String payment_method;
-    private String user_id;
+    private String paymentMethod;
+    private String userId;
 
-    public Order(String pending, String payment_method, String user_id) {
+    public Order() {
+    }
+
+    public Order(String userId) {
+        this.id = UUID.randomUUID().toString();
+        this.userId = userId;
+        this.paymentMethod = "";
+        this.pending = "";
+    }
+
+    public Order(String pending, String paymentMethod, String userId) {
         id = UUID.randomUUID().toString();
         this.pending = pending;
-        this.payment_method = payment_method;
-        this.user_id = user_id;
+        this.paymentMethod = paymentMethod;
+        this.userId = userId;
     }
 
     public String getId() {
@@ -31,20 +41,20 @@ public class Order {
         this.pending = pending;
     }
 
-    public String getPayment_method() {
-        return payment_method;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPayment_method(String payment_method) {
-        this.payment_method = payment_method;
+    public void setPaymentMethod(String payment_method) {
+        this.paymentMethod = payment_method;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }
