@@ -69,7 +69,7 @@ create table orders (
 	created_time timestamp without time zone default current_timestamp
 );
 
-create table orders_products (
+create table order_products (
 	order_id varchar,
 	product_id varchar,
 	quantity int not null,
