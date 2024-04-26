@@ -5,11 +5,20 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 import java.io.IOException;
 
+import com.revature.shop.controllers.CartController;
+import com.revature.shop.controllers.CartProductController;
+import com.revature.shop.controllers.CategoryController;
 import com.revature.shop.controllers.ProductController;
 import com.revature.shop.controllers.UserController;
+import com.revature.shop.daos.CartDao;
+import com.revature.shop.daos.CartProductDao;
+import com.revature.shop.daos.CategoryDao;
 import com.revature.shop.daos.ProductDao;
 import com.revature.shop.daos.RoleDao;
 import com.revature.shop.daos.UserDao;
+import com.revature.shop.services.CartProductService;
+import com.revature.shop.services.CartService;
+import com.revature.shop.services.CategoryService;
 import com.revature.shop.services.ProductService;
 import com.revature.shop.services.RoleService;
 import com.revature.shop.services.TokenService;
@@ -20,8 +29,20 @@ public class JavalinUtil {
         UserController userController = new UserController(
                 getUserService(),
                 new TokenService());
+        CategoryController categoryController = new CategoryController(
+                new CategoryService(new CategoryDao()),
+                new TokenService());
         ProductController productController = new ProductController(
                 new ProductService(new ProductDao()),
+                new CategoryService(new CategoryDao()),
+                new TokenService());
+        CartController cartController = new CartController(
+                new CartService(new CartDao()),
+                new TokenService());
+        CartProductController cartProductController = new CartProductController(
+                new CartProductService(new CartProductDao()),
+                new ProductService(new ProductDao()),
+                new CartService(new CartDao()),
                 new TokenService());
 
         return Javalin.create(config -> {
@@ -31,11 +52,28 @@ public class JavalinUtil {
                     post("/login", userController::login);
                 });
 
+                path("/categories", () -> {
+                    get(categoryController::getCategories);
+                    post(categoryController::addCategory);
+                });
+
                 path("/products", () -> {
                     get(productController::getProducts);
                     post(productController::addProduct);
                     put(productController::editProduct);
                     delete(productController::deleteProduct);
+                });
+
+                path("/carts", () -> {
+                    get(cartController::getCart);
+                });
+
+                path("/cartProducts", () -> {
+                    post(cartProductController::addProductToCart);
+                    put(cartProductController::updateQuantity);
+                    delete(cartProductController::delete);
+                    get("/user", cartProductController::getUsersCartProduct);
+                    get("/price", cartProductController::getUsersCartPrice);
                 });
             });
         });

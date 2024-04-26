@@ -5,15 +5,17 @@ public class EditProductRequest {
     private String name;
     private String description;
     private float price;
+    private String categoryId;
 
     public EditProductRequest() {
     }
 
-    public EditProductRequest(String id, String name, String description, float price) {
+    public EditProductRequest(String id, String name, String description, float price, String categoryId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.categoryId = categoryId;
     }
 
     public String getId() {
@@ -46,6 +48,14 @@ public class EditProductRequest {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
 }

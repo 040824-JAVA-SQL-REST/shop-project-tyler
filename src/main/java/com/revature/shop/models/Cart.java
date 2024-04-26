@@ -5,12 +5,18 @@ import java.util.UUID;
 public class Cart {
     private String id;
     private String userId;
-    private float totalCost;
 
-    public Cart(String userId, float totalCost) {
+    public Cart() {
+    }
+
+    public Cart(String userId) {
         id = UUID.randomUUID().toString();
         this.userId = userId;
-        this.totalCost = totalCost;
+    }
+
+    public Cart(String id, String userId) {
+        this.id = id;
+        this.userId = userId;
     }
 
     public String getId() {
@@ -28,13 +34,4 @@ public class Cart {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-
-    public float getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(float totalCost) {
-        this.totalCost = totalCost;
-    }
-
 }

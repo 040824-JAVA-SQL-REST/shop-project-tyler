@@ -11,6 +11,7 @@ import com.revature.shop.dtos.requests.NewProductRequest;
 import com.revature.shop.dtos.responses.GetProductsResponse;
 import com.revature.shop.dtos.responses.Principal;
 import com.revature.shop.models.Product;
+import com.revature.shop.services.CategoryService;
 import com.revature.shop.services.ProductService;
 import com.revature.shop.services.TokenService;
 
@@ -18,10 +19,13 @@ import io.javalin.http.Context;
 
 public class ProductController {
     private final ProductService productService;
+    private final CategoryService categoryService;
     private final TokenService tokenService;
 
-    public ProductController(ProductService productService, TokenService tokenService) {
+    public ProductController(ProductService productService, CategoryService categoryService,
+            TokenService tokenService) {
         this.productService = productService;
+        this.categoryService = categoryService;
         this.tokenService = tokenService;
     }
 
@@ -72,6 +76,12 @@ public class ProductController {
                 ctx.json(errors);
                 return;
             }
+            if (!categoryService.isValidId(newProduct.getCategoryId())) {
+                ctx.status(400);
+                errors.put("Error:", "A product must have a valid category id");
+                ctx.json(errors);
+                return;
+            }
             productService.save(newProduct);
             ctx.status(201);
             ctx.json(newProduct);
@@ -119,6 +129,7 @@ public class ProductController {
             boolean editName = false;
             boolean editDescription = false;
             boolean editPrice = false;
+            boolean editCategory = false;
             // by checking for default values
             if (editProduct.getName() != null) {
                 if (!productService.isValidName(editProduct.getName())) {
@@ -148,6 +159,15 @@ public class ProductController {
                 }
                 editPrice = true;
             }
+            if (editProduct.getCategoryId() != null) {
+                if (!categoryService.isValidId(editProduct.getCategoryId())) {
+                    ctx.status(400);
+                    errors.put("Error:", "A product must have a valid category id");
+                    ctx.json(errors);
+                    return;
+                }
+                editCategory = true;
+            }
             Product oldProduct = productService.getProductById(req.getId()).get();
             if (!editName) {
                 editProduct.setName(oldProduct.getName());
@@ -157,6 +177,9 @@ public class ProductController {
             }
             if (!editPrice) {
                 editProduct.setPrice(oldProduct.getPrice());
+            }
+            if (!editCategory) {
+                editProduct.setCategoryId(oldProduct.getCategoryId());
             }
             productService.update(editProduct);
             ctx.status(200);
@@ -202,9 +225,9 @@ public class ProductController {
             if (productService.delete(req.getId())) {
                 ctx.status(200);
             } else {
-                // deleted 0 rows, something went wrong
-                ctx.status(502);
-                errors.put("Error:", "Database returned 0 rows deleted");
+                // deleted 0 rows
+                ctx.status(400);
+                errors.put("Error:", "There was no product with that id to delete");
                 ctx.json(errors);
                 return;
             }

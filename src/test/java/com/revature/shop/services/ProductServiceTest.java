@@ -28,8 +28,8 @@ public class ProductServiceTest {
     public void isUniqueNameShouldReturnTrueIfNameIsUnique() {
         String uniqueName = "testProdcutUnique";
         List<Product> mockedProducts = List.of(
-                new Product("testProduct1", "prod1 desc", 1.0f),
-                new Product("testProduct2", "prod2 desc", 98.0f));
+                new Product("testProduct1", "prod1 desc", 1.0f, "1"),
+                new Product("testProduct2", "prod2 desc", 98.0f, "1"));
         Mockito.when(productDao.findAll()).thenReturn(mockedProducts);
 
         boolean actual = productService.isUniqueName(uniqueName);
@@ -41,8 +41,8 @@ public class ProductServiceTest {
     public void isUniqueNameShouldReturnFalseIfNameIsNotUnique() {
         String notUniqueName = "testProduct1";
         List<Product> mockedProducts = List.of(
-                new Product("testProduct1", "prod1 desc", 1.0f),
-                new Product("testProduct2", "prod2 desc", 98.0f));
+                new Product("testProduct1", "prod1 desc", 1.0f, "1"),
+                new Product("testProduct2", "prod2 desc", 98.0f, "1"));
         Mockito.when(productDao.findAll()).thenReturn(mockedProducts);
 
         boolean actual = productService.isUniqueName(notUniqueName);
@@ -89,10 +89,10 @@ public class ProductServiceTest {
     @Test
     public void getProductByIdShouldReturnProductIfCorrectIdIsGiven() {
         String productId = "1";
-        Product mockedProduct = new Product("1", "testProduct1", "prod1 desc", 1.0f);
+        Product mockedProduct = new Product("1", "testProduct1", "prod1 desc", 1.0f, "1");
         List<Product> mockedProducts = List.of(
-                new Product("1", "testProduct1", "prod1 desc", 1.0f),
-                new Product("2", "testProduct2", "prod2 desc", 98.0f));
+                new Product("1", "testProduct1", "prod1 desc", 1.0f, "1"),
+                new Product("2", "testProduct2", "prod2 desc", 98.0f, "1"));
         Mockito.when(productDao.findAll()).thenReturn(mockedProducts);
 
         Optional<Product> optProduct = productService.getProductById(productId);
@@ -105,10 +105,9 @@ public class ProductServiceTest {
     @Test
     public void getProductByIdShouldReturnNullIfIncorrectIdIsGiven() {
         String productId = "3";
-        Product mockedProduct = new Product("2", "testProduct2", "prod2 desc", 4.0f);
         List<Product> mockedProducts = List.of(
-                new Product("1", "testProduct1", "prod1 desc", 1.0f),
-                new Product("2", "testProduct2", "prod2 desc", 98.0f));
+                new Product("1", "testProduct1", "prod1 desc", 1.0f, "1"),
+                new Product("2", "testProduct2", "prod2 desc", 98.0f, "1"));
         Mockito.when(productDao.findAll()).thenReturn(mockedProducts);
 
         Optional<Product> optProduct = productService.getProductById(productId);
@@ -119,8 +118,8 @@ public class ProductServiceTest {
     @Test
     public void getAllProductsShouldReturnAllProducts() {
         List<Product> mockedProducts = List.of(
-                new Product("1", "testProduct1", "prod1 desc", 1.0f),
-                new Product("2", "testProduct2", "prod2 desc", 98.0f));
+                new Product("1", "testProduct1", "prod1 desc", 1.0f, "1"),
+                new Product("2", "testProduct2", "prod2 desc", 98.0f, "1"));
         Mockito.when(productDao.findAll()).thenReturn(mockedProducts);
 
         assertEquals(mockedProducts, productService.getAllProducts());
@@ -128,12 +127,9 @@ public class ProductServiceTest {
 
     @Test
     public void updateShouldChangeProductWhenIdIsCorrect() {
-        Product updatedProduct = new Product("1", "newTestProduct1", "newTestProd desc", 1.0f);
-        List<Product> mockedProducts = List.of(
-                new Product("1", "testProduct1", "prod1 desc", 1.0f),
-                new Product("2", "testProduct2", "prod2 desc", 98.0f));
+        Product updatedProduct = new Product("1", "newTestProduct1", "newTestProd desc", 1.0f, "1");
         Mockito.when(productDao.update(updatedProduct))
-                .thenReturn(new Product("1", "newTestProduct1", "newTestProd desc", 1.0f));
+                .thenReturn(new Product("1", "newTestProduct1", "newTestProd desc", 1.0f, "1"));
 
         Product actual = productService.update(updatedProduct);
 

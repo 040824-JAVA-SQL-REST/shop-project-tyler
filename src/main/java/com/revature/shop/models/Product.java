@@ -10,22 +10,25 @@ public class Product {
     private String name;
     private String description;
     private float price;
+    private String categoryId;
 
     public Product() {
     }
 
-    public Product(String name, String description, float price) {
+    public Product(String name, String description, float price, String categoryId) {
         this.name = name;
         this.description = description;
         this.price = price;
         id = UUID.randomUUID().toString();
+        this.categoryId = categoryId;
     }
 
-    public Product(String id, String name, String description, float price) {
+    public Product(String id, String name, String description, float price, String categoryId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.categoryId = categoryId;
     }
 
     public Product(NewProductRequest req) {
@@ -33,6 +36,7 @@ public class Product {
         this.name = req.getName();
         this.description = req.getDescription();
         this.price = req.getPrice();
+        this.categoryId = req.getCategoryId();
     }
 
     public Product(EditProductRequest req) {
@@ -40,6 +44,7 @@ public class Product {
         this.name = req.getName();
         this.description = req.getDescription();
         this.price = req.getPrice();
+        this.categoryId = req.getCategoryId();
     }
 
     public String getId() {
@@ -72,5 +77,13 @@ public class Product {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 }

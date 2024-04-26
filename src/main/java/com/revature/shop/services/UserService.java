@@ -67,7 +67,7 @@ public class UserService {
         return authUser.isPresent();
     }
 
-    public void save(User user) {
+    public User save(User user) {
         String defaultId = roleService.getRoleIdByName("DEFAULT");
         if (defaultId == null || defaultId.isEmpty()) {
             throw new ResourceNotFoundException("DEFAULT role not found");
@@ -75,14 +75,7 @@ public class UserService {
 
         user.setRoleId(defaultId);
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
-        userDao.save(user);
-    }
-
-    public User getUserByEmail(String email) {
-        return userDao.findAll().stream()
-                .filter(u -> u.getEmail().equals(email))
-                .findFirst()
-                .get();
+        return userDao.save(user);
     }
 
     public Role getUserRole(User user) {

@@ -4,14 +4,16 @@ public class NewProductRequest {
     private String name;
     private String description;
     private float price;
+    private String categoryId;
 
     public NewProductRequest() {
     }
 
-    public NewProductRequest(String name, String description, float price) {
+    public NewProductRequest(String name, String description, float price, String categoryId) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -36,6 +38,14 @@ public class NewProductRequest {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
 }

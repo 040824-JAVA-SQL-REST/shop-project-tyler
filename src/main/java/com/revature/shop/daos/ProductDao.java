@@ -18,11 +18,12 @@ public class ProductDao implements CrudDao<Product> {
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
                 PreparedStatement ps = conn
                         .prepareStatement(
-                                "INSERT INTO products (id, name, description, price) VALUES (?, ?, ?, ?)")) {
+                                "INSERT INTO products (id, name, description, price, category_id) VALUES (?, ?, ?, ?, ?)")) {
             ps.setString(1, obj.getId());
             ps.setString(2, obj.getName());
             ps.setString(3, obj.getDescription());
             ps.setFloat(4, obj.getPrice());
+            ps.setString(5, obj.getCategoryId());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -39,11 +40,12 @@ public class ProductDao implements CrudDao<Product> {
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
                 PreparedStatement ps = conn
                         .prepareStatement(
-                                "UPDATE products SET Name = ?, Description = ?, Price = ? WHERE id = ?")) {
+                                "UPDATE products SET Name = ?, Description = ?, Price = ?, category_id = ? WHERE id = ?")) {
             ps.setString(1, obj.getName());
             ps.setString(2, obj.getDescription());
             ps.setFloat(3, obj.getPrice());
-            ps.setString(4, obj.getId());
+            ps.setString(4, obj.getCategoryId());
+            ps.setString(5, obj.getId());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -74,7 +76,6 @@ public class ProductDao implements CrudDao<Product> {
         } catch (IOException e) {
             throw new RuntimeException("IO EXCEPTION!\n" + e);
         }
-
     }
 
     @Override
@@ -90,6 +91,7 @@ public class ProductDao implements CrudDao<Product> {
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
                 product.setPrice(rs.getInt("price"));
+                product.setCategoryId(rs.getString("category_id"));
                 products.add(product);
             }
         } catch (SQLException e) {
