@@ -1,7 +1,7 @@
 --- Note: Drop children before parents ---
 drop table if exists cart_products Cascade;
 drop table if exists carts;
-drop table if exists orders_products Cascade;
+drop table if exists order_products Cascade;
 drop table if exists orders;
 drop table if exists products;
 drop table if exists users;
@@ -73,16 +73,11 @@ create table order_products (
 	order_id varchar,
 	product_id varchar,
 	quantity int not null,
+	cost float not null,
 	constraint pk_orders_products primary key (order_id, product_id),
 	constraint fk_order_id foreign key (order_id) references orders (id),
 	constraint fk_product_id foreign key (product_id) references products (id) ON DELETE CASCADE
 );
-
-
---- for testing ---
-insert into roles (id, name) values ('16a4678d-bde4-4c1f-8b7d-5ecb07c80bfb', 'DEFAULT');
-insert into roles (id, name) values ('3a4678d-gde4-4clf-8b0d-5emb07c80bew', 'ADMIN');
-
 
 --- triggers---
 create or replace function update_total()
@@ -93,7 +88,12 @@ begin
 end;
 $$ language plpgsql;
 
-create trigger update_total
+create trigger update_total_cart_products
 before insert or update on cart_products
+for each row
+execute procedure update_total();
+
+create trigger update_total_order_products
+before insert or update on order_products
 for each row
 execute procedure update_total();
