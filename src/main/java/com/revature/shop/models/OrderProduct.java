@@ -48,4 +48,41 @@ public class OrderProduct {
         this.cost = cost;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+        result = prime * result + ((productId == null) ? 0 : productId.hashCode());
+        result = prime * result + quantity;
+        result = prime * result + Float.floatToIntBits(cost);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        OrderProduct other = (OrderProduct) obj;
+        if (orderId == null) {
+            if (other.orderId != null)
+                return false;
+        } else if (!orderId.equals(other.orderId))
+            return false;
+        if (productId == null) {
+            if (other.productId != null)
+                return false;
+        } else if (!productId.equals(other.productId))
+            return false;
+        if (quantity != other.quantity)
+            return false;
+        if (Float.floatToIntBits(cost) != Float.floatToIntBits(other.cost))
+            return false;
+        return true;
+    }
+
 }

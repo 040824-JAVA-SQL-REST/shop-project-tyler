@@ -136,4 +136,16 @@ public class ProductServiceTest {
         assertEquals(updatedProduct.getName(), actual.getName());
         assertEquals(updatedProduct.getDescription(), actual.getDescription());
     }
+
+    @Test
+    public void getNameByIdShouldReturnProductNameWithValidId() {
+        List<Product> mockedProducts = List.of(
+                new Product("1", "testProduct1", "prod1 desc", 1.0f, "1"),
+                new Product("2", "testProduct2", "prod2 desc", 98.0f, "1"));
+        Mockito.when(productDao.findAll()).thenReturn(mockedProducts);
+
+        String actual = productService.getNameById("1");
+
+        assertTrue(actual.equals("testProduct1"));
+    }
 }
