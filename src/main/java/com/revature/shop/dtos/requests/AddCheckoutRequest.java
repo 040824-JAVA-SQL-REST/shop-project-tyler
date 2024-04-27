@@ -2,14 +2,14 @@ package com.revature.shop.dtos.requests;
 
 public class AddCheckoutRequest {
     String orderId;
-    String payment_method;
+    String paymentMethod;
 
     public AddCheckoutRequest() {
     }
 
-    public AddCheckoutRequest(String orderId, String payment_method) {
+    public AddCheckoutRequest(String orderId, String paymentMethod) {
         this.orderId = orderId;
-        this.payment_method = payment_method;
+        this.paymentMethod = paymentMethod;
     }
 
     public String getOrderId() {
@@ -20,12 +20,12 @@ public class AddCheckoutRequest {
         this.orderId = orderId;
     }
 
-    public String getPayment_method() {
-        return payment_method;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPayment_method(String payment_method) {
-        this.payment_method = payment_method;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
 }

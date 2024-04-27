@@ -36,8 +36,22 @@ public class OrderDao implements CrudDao<Order> {
 
     @Override
     public Order update(Order obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+                PreparedStatement ps = conn
+                        .prepareStatement(
+                                "UPDATE orders SET pending = ?, payment_method = ? WHERE id = ?")) {
+            ps.setString(1, obj.getPending());
+            ps.setString(2, obj.getPaymentMethod());
+            ps.setString(3, obj.getId());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot connect to the database " + e);
+        } catch (IOException e) {
+            throw new RuntimeException("IO EXCEPTION!\n" + e);
+        }
+
+        return obj;
     }
 
     @Override

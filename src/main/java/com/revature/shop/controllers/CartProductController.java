@@ -1,5 +1,6 @@
 package com.revature.shop.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Optional;
 import com.revature.shop.dtos.requests.AddProductRequest;
 import com.revature.shop.dtos.requests.DeleteCartProductRequest;
 import com.revature.shop.dtos.requests.EditQuantityRequest;
+import com.revature.shop.dtos.responses.GetCartProduct;
 import com.revature.shop.dtos.responses.Principal;
 import com.revature.shop.models.CartProduct;
 import com.revature.shop.models.Product;
@@ -238,9 +240,18 @@ public class CartProductController {
             }
             // end of request verification
             String cart_id = cartService.getCartIdByUserId(principal.getId());
-            List<CartProduct> currentCartProduct = cartProductService.findCartProductWithCertainCartId(cart_id);
+            ArrayList<GetCartProduct> getCartProductList = new ArrayList();
+            List<CartProduct> cartProductList = cartProductService.findCartProductWithCertainCartId(cart_id);
+            for (int i = 0; i < cartProductList.size(); i++) {
+                CartProduct cartProduct = cartProductList.get(i);
+                GetCartProduct getCartProduct = new GetCartProduct();
+                getCartProduct.setName(productService.getNameById(cartProduct.getProductId()));
+                getCartProduct.setPrice(productService.getProductById(cartProduct.getProductId()).get().getPrice());
+                getCartProduct.setQuantity(cartProduct.getQuantity());
+                getCartProductList.add(getCartProduct);
+            }
             ctx.status(200);
-            ctx.json(currentCartProduct);
+            ctx.json(getCartProductList);
         } catch (Exception e) {
             ctx.status(500);
             e.printStackTrace();

@@ -58,4 +58,13 @@ public class ProductService {
     public boolean isValidPrice(float price) {
         return price > 0.00f;
     }
+
+    public String getNameById(String id) {
+        return productDao.findAll()
+                .stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .get()
+                .getName();
+    }
 }

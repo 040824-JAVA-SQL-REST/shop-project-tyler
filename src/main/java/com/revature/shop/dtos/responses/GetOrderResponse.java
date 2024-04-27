@@ -3,18 +3,19 @@ package com.revature.shop.dtos.responses;
 import java.util.List;
 
 import com.revature.shop.models.Order;
-import com.revature.shop.models.OrderProduct;
 
 public class GetOrderResponse {
     Order order;
-    List<OrderProduct> orderProducts;
+    List<GetOrderProduct> getOrderProducts;
+    float totalPrice;
 
     public GetOrderResponse() {
     }
 
-    public GetOrderResponse(Order order, List<OrderProduct> orderProducts) {
+    public GetOrderResponse(Order order, List<GetOrderProduct> getOrderProducts, float totalPrice) {
         this.order = order;
-        this.orderProducts = orderProducts;
+        this.getOrderProducts = getOrderProducts;
+        this.totalPrice = totalPrice;
     }
 
     public Order getOrder() {
@@ -25,12 +26,20 @@ public class GetOrderResponse {
         this.order = order;
     }
 
-    public List<OrderProduct> getOrderProducts() {
-        return orderProducts;
+    public List<GetOrderProduct> getGetOrderProducts() {
+        return getOrderProducts;
     }
 
-    public void setOrderProducts(List<OrderProduct> orderProducts) {
-        this.orderProducts = orderProducts;
+    public void setGetOrderProducts(List<GetOrderProduct> getOrderProducts) {
+        this.getOrderProducts = getOrderProducts;
+    }
+
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
 }

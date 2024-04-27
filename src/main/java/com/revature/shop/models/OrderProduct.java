@@ -4,14 +4,16 @@ public class OrderProduct {
     private String orderId;
     private String productId;
     private int quantity;
+    private float cost;
 
     public OrderProduct() {
     }
 
-    public OrderProduct(String orderId, String productId, int quantity) {
+    public OrderProduct(String orderId, String productId, int quantity, float cost) {
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
+        this.cost = cost;
     }
 
     public String getOrderId() {
@@ -36,6 +38,14 @@ public class OrderProduct {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 
 }

@@ -22,7 +22,8 @@ public class OrderProductService {
         for (int i = 0; i < cartProducts.size(); i++) {
             OrderProduct op = new OrderProduct(orderId,
                     cartProducts.get(i).getProductId(),
-                    cartProducts.get(i).getQuantity());
+                    cartProducts.get(i).getQuantity(),
+                    cartProducts.get(i).getCost());
             orderProductDao.save(op);
         }
     }
@@ -31,5 +32,9 @@ public class OrderProductService {
         return orderProductDao.findAll().stream()
                 .filter(op -> op.getOrderId().equals(id))
                 .toList();
+    }
+
+    public float getTotalPriceByOrderId(String orderId) {
+        return orderProductDao.getCartPrice(orderId);
     }
 }

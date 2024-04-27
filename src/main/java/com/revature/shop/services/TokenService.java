@@ -30,7 +30,7 @@ public class TokenService {
                 .setSubject(principal.getEmail())
                 .claim("roleId", principal.getRole().getId())
                 .claim("roleName", principal.getRole().getName())
-                .setExpiration(new Date(System.currentTimeMillis() + 36000000))
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }

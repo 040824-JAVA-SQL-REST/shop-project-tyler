@@ -57,6 +57,7 @@ public class OrderProductDao implements CrudDao<OrderProduct> {
                 orderProduct.setOrderId(rs.getString("order_id"));
                 orderProduct.setProductId(rs.getString("product_id"));
                 orderProduct.setQuantity(rs.getInt("quantity"));
+                orderProduct.setCost(rs.getFloat("cost"));
                 orderProducts.add(orderProduct);
             }
             return orderProducts;
@@ -71,6 +72,24 @@ public class OrderProductDao implements CrudDao<OrderProduct> {
     public OrderProduct findById(String id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    }
+
+    public float getCartPrice(String orderId) {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+                PreparedStatement ps = conn
+                        .prepareStatement(
+                                "SELECT SUM(cost) as total_cost FROM order_products WHERE order_id = ?")) {
+            ps.setString(1, orderId);
+
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            float totalCost = rs.getFloat("total_cost");
+            return totalCost;
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot connect to the database " + e);
+        } catch (IOException e) {
+            throw new RuntimeException("IO EXCEPTION!\n" + e);
+        }
     }
 
 }

@@ -82,8 +82,9 @@ public class OrderProductController {
             cartProductService.deleteAllItemsAssociatedWithCartId(cartId);
             // step 5) set pending and payment_method of the order
             Order order = orderService.getOrderById(orderId).get();
-            order.setPaymentMethod(req.getPayment_method());
+            order.setPaymentMethod(req.getPaymentMethod());
             order.setPending("PENDING");
+            orderService.update(order);
             ctx.status(200);
         } catch (Exception e) {
             ctx.status(500);

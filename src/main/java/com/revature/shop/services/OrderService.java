@@ -43,4 +43,8 @@ public class OrderService {
         }
         return true;
     }
+
+    public Order update(Order obj) {
+        return orderDao.update(obj);
+    }
 }

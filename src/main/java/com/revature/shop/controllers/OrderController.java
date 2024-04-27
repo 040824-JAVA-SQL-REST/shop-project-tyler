@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.revature.shop.dtos.responses.GetOrderResponse;
+import com.revature.shop.dtos.responses.GetOrderProduct;
 import com.revature.shop.dtos.responses.Principal;
 import com.revature.shop.models.Order;
 import com.revature.shop.models.OrderProduct;
 import com.revature.shop.services.OrderProductService;
 import com.revature.shop.services.OrderService;
+import com.revature.shop.services.ProductService;
 import com.revature.shop.services.TokenService;
 
 import io.javalin.http.Context;
@@ -18,18 +20,18 @@ import io.javalin.http.Context;
 public class OrderController {
     private final OrderService orderService;
     private final OrderProductService orderProductService;
+    private final ProductService productService;
     private final TokenService tokenService;
 
-    public OrderController(
-            OrderService orderService,
-            OrderProductService orderProductService,
-            TokenService tokenService) {
+    public OrderController(OrderService orderService, OrderProductService orderProductService,
+            ProductService productService, TokenService tokenService) {
         this.orderService = orderService;
         this.orderProductService = orderProductService;
+        this.productService = productService;
         this.tokenService = tokenService;
     }
 
-    public void getNewOrder(Context ctx) {
+    public void createNewOrder(Context ctx) {
         try {
             Map<String, String> errors = new HashMap<>();
             String token = ctx.header("auth-token");
@@ -98,13 +100,27 @@ public class OrderController {
                 ctx.status(200);
                 return;
             }
+            // For each order: Total Cost, Order Date, contents of cart
+            // For each cart inside of order: Product Name, Quantity
             ArrayList<GetOrderResponse> ordersPlusProducts = new ArrayList();
             for (int i = 0; i < userOrdersLength; i++) {
                 GetOrderResponse temp = new GetOrderResponse();
                 String orderId = userOrders.get(i).getId();
                 temp.setOrder(userOrders.get(i));
                 List<OrderProduct> products = orderProductService.findAllOrderProductsByOrderId(orderId);
-                temp.setOrderProducts(products);
+                List<GetOrderProduct> orderProducts = new ArrayList();
+                for (int j = 0; j < products.size(); j++) {
+                    GetOrderProduct productWithName = new GetOrderProduct();
+                    OrderProduct currentProduct = products.get(j);
+                    productWithName.setName(productService.getNameById(currentProduct.getProductId()));
+                    productWithName
+                            .setPrice(productService.getProductById(currentProduct.getProductId()).get().getPrice());
+                    productWithName.setQuantity(currentProduct.getQuantity());
+                    orderProducts.add(productWithName);
+                }
+                temp.setGetOrderProducts(orderProducts);
+                float totalPrice = orderProductService.getTotalPriceByOrderId(orderId);
+                temp.setTotalPrice(totalPrice);
                 ordersPlusProducts.add(temp);
             }
             ctx.status(200);
@@ -152,7 +168,19 @@ public class OrderController {
                 String orderId = userOrders.get(i).getId();
                 temp.setOrder(userOrders.get(i));
                 List<OrderProduct> products = orderProductService.findAllOrderProductsByOrderId(orderId);
-                temp.setOrderProducts(products);
+                List<GetOrderProduct> orderProducts = new ArrayList();
+                for (int j = 0; j < products.size(); j++) {
+                    GetOrderProduct productWithName = new GetOrderProduct();
+                    OrderProduct currentProduct = products.get(j);
+                    productWithName.setName(productService.getNameById(currentProduct.getProductId()));
+                    productWithName
+                            .setPrice(productService.getProductById(currentProduct.getProductId()).get().getPrice());
+                    productWithName.setQuantity(currentProduct.getQuantity());
+                    orderProducts.add(productWithName);
+                }
+                temp.setGetOrderProducts(orderProducts);
+                float totalPrice = orderProductService.getTotalPriceByOrderId(orderId);
+                temp.setTotalPrice(totalPrice);
                 ordersPlusProducts.add(temp);
             }
             ctx.status(200);
