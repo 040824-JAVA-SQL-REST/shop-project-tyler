@@ -248,6 +248,7 @@ public class CartProductController {
                 getCartProduct.setName(productService.getNameById(cartProduct.getProductId()));
                 getCartProduct.setPrice(productService.getProductById(cartProduct.getProductId()).get().getPrice());
                 getCartProduct.setQuantity(cartProduct.getQuantity());
+                getCartProduct.setCostInCart(getCartProduct.getPrice() * getCartProduct.getQuantity());
                 getCartProductList.add(getCartProduct);
             }
             ctx.status(200);

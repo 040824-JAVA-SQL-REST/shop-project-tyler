@@ -4,14 +4,16 @@ public class GetCartProduct {
     private String name;
     private int quantity;
     private float price;
+    private float costInCart;
 
     public GetCartProduct() {
     }
 
-    public GetCartProduct(String name, int quantity, float price) {
+    public GetCartProduct(String name, int quantity, float price, float costInCart) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
+        this.costInCart = costInCart;
     }
 
     public String getName() {
@@ -36,6 +38,14 @@ public class GetCartProduct {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public float getCostInCart() {
+        return costInCart;
+    }
+
+    public void setCostInCart(float costInCart) {
+        this.costInCart = costInCart;
     }
 
 }

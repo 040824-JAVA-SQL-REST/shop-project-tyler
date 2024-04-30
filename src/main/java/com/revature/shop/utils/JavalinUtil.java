@@ -82,7 +82,7 @@ public class JavalinUtil {
                 });
 
                 path("/carts", () -> {
-                    get(cartController::getCart);
+                    put(cartController::getCart);
                 });
 
                 path("/cartProducts", () -> {
